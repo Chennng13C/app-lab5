@@ -17,13 +17,52 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Button btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button btn = findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder dialog =new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("請選擇功能");
+                dialog.setMessage("請根據下方按鈕選擇要顯示的物件");
+
+                dialog.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this,"dialog關閉",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.setNegativeButton("自定義Toast", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        showToast();
+                    }
+                });
+
+                dialog.setPositiveButton("顯示list", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        showListDialog();
+                    }
+                });
+                dialog.show();
+            }
+        });
+    }
+
+
     private void showToast(){
         Toast toast = new Toast(MainActivity.this);
         toast.setGravity(Gravity.TOP,0,50);
         toast.setDuration(Toast.LENGTH_LONG);
         LayoutInflater inflater=getLayoutInflater();
-        View layout = inflater.inflate(R.layout.activity_main,(ViewGroup)findViewById(R.id.custom_toast_root));
+        View layout = inflater.inflate(R.layout.custom_toast,(ViewGroup)findViewById(R.id.custom_toast_root));
         toast.setView(layout);
         toast.show();
     }
@@ -39,43 +78,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog_list.show();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        btn = findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder dialog =new AlertDialog.Builder(MainActivity.this);
-                dialog.setTitle("請選擇功能");
-                dialog.setMessage("請根據下方按鈕選擇要顯示的物件");
-
-                dialog.setNeutralButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MainActivity.this,"dialog關閉",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                dialog.setNegativeButton("自定義Toast", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showToast();
-                    }
-                });
-
-                dialog.setPositiveButton("顯示list", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showListDialog();
-                    }
-                });
-                dialog.show();
-            }
-        });
     }
 }
